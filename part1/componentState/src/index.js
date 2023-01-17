@@ -1,18 +1,22 @@
 import ReactDOM from "react-dom";
+import { useState } from "react";
 
 const rootElement = document.getElementById("root");
 
-const App = (props) => {
-  return <h1>{props.initialCounter}</h1>;
+const App = () => {
+  const [counter, setCounter] = useState(0);
+
+  setInterval(() => {
+    setCounter(counter + 1);
+  }, 2000);
+
+  return (
+    <div>
+      <h1>React Magic</h1>
+      <p>The value of the counter is:</p>
+      <h2>{counter}</h2>;
+    </div>
+  );
 };
 
-let counter = 0;
-
-const refresh = () => {
-  ReactDOM.render(<App initialCounter={counter} />, rootElement);
-};
-
-setInterval(() => {
-  counter++;
-  refresh();
-}, 1000);
+ReactDOM.render(<App />, rootElement);
