@@ -14,17 +14,22 @@ const Button = ({ title, variable, variableSetter }) => {
   )
 }
 
+const Statistic = ({ text, value }) => {
+  return <p>text{value}</p>
+}
+
 const Statistics = ({ good, neutral, bad }) => {
+  const total = good + neutral + bad
   return (
     <div>
       <h4>STATISTICS</h4>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
+      <Statistic text={"Good: "} value={good} />
+      <Statistic text={"Neutral: "} value={neutral} />
+      <Statistic text={"Bad: "} value={bad} />
       <h4>MORE STATISTICS</h4>
-      <p>All: {good + neutral + bad}</p>
-      <p>Average: {(good - bad) / (good + neutral + bad)}</p>
-      <p>Positive: {(good * 100) / (good + neutral + bad)}</p>
+      <Statistic text={"All: "} value={total} />
+      <Statistic text={"Average: "} value={(good - bad) / total} />
+      <Statistic text={"Positive: "} value={(good * 100) / total} />
     </div>
   )
 }
