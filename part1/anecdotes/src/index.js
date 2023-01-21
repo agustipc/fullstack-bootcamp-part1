@@ -4,15 +4,24 @@ import "./styles.css"
 
 const App = (props) => {
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(new Uint8Array(6))
 
   const handleClick = () => {
     var newSelected = Math.floor(Math.random() * anecdotes.length)
     setSelected(newSelected)
   }
+  const handleVote = () => {
+    const copy = [...points]
+    copy[selected] += 1
+
+    setPoints(copy)
+  }
 
   return (
     <div style={{ padding: "40px" }}>
       <p>{props.anecdotes[selected]}</p>
+      <p>has {points[selected]} votes</p>
+      <button onClick={handleVote}>vote</button>
       <button onClick={handleClick}>Random anecdote</button>
     </div>
   )
