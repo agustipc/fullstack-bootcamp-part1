@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import ReactDOM from "react-dom"
+import { createRoot } from "react-dom/client"
 import "./styles.css"
 
 const Button = ({ title, variable, variableSetter }) => {
@@ -14,23 +14,28 @@ const Button = ({ title, variable, variableSetter }) => {
   )
 }
 
-const Statistic = ({ text, value }) => {
-  return <p>text{value}</p>
+const TableRow = ({ text, value }) => {
+  return (
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
+  )
 }
 
 const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad
   return (
-    <div>
-      <h4>STATISTICS</h4>
-      <Statistic text={"Good: "} value={good} />
-      <Statistic text={"Neutral: "} value={neutral} />
-      <Statistic text={"Bad: "} value={bad} />
-      <h4>MORE STATISTICS</h4>
-      <Statistic text={"All: "} value={total} />
-      <Statistic text={"Average: "} value={(good - bad) / total} />
-      <Statistic text={"Positive: "} value={(good * 100) / total} />
-    </div>
+    <table>
+      <tbody>
+        <TableRow text={"Good"} value={good} />
+        <TableRow text={"Neutral: "} value={neutral} />
+        <TableRow text={"Bad: "} value={bad} />
+        <TableRow text={"All: "} value={total} />
+        <TableRow text={"Average: "} value={(good - bad) / total} />
+        <TableRow text={"Positive: "} value={(good * 100) / total} />
+      </tbody>
+    </table>
   )
 }
 
@@ -59,4 +64,6 @@ const App = () => {
   )
 }
 
-ReactDOM.render(<App />, document.getElementById("root"))
+const container = document.getElementById("root")
+const root = createRoot(container)
+root.render(<App tab="home" />)
