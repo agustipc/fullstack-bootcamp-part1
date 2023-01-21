@@ -2,6 +2,19 @@ import React, { useState } from "react"
 import { createRoot } from "react-dom/client"
 import "./styles.css"
 
+const Anecdote = ({ anecdote, votes }) => {
+  return (
+    <div>
+      <p>{anecdote}</p>
+      <p>has {votes} votes</p>
+    </div>
+  )
+}
+
+const Button = ({ onClick, text }) => {
+  return <button onClick={onClick}>{text}</button>
+}
+
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState(new Uint8Array(6))
@@ -17,12 +30,20 @@ const App = (props) => {
     setPoints(copy)
   }
 
+  var mostPointed = points.indexOf(Math.max(...points))
+
   return (
     <div style={{ padding: "40px" }}>
-      <p>{props.anecdotes[selected]}</p>
-      <p>has {points[selected]} votes</p>
-      <button onClick={handleVote}>vote</button>
-      <button onClick={handleClick}>Random anecdote</button>
+      <h1>Anecdote of the day</h1>
+      <Anecdote anecdote={props.anecdotes[selected]} votes={points[selected]} />
+      <Button onClick={handleVote} text={"Vote"} />
+      <Button onClick={handleClick} text={"Random anecdote"} />
+
+      <h2>Anecdote with more votes</h2>
+      <Anecdote
+        anecdote={props.anecdotes[mostPointed]}
+        votes={points[mostPointed]}
+      />
     </div>
   )
 }
