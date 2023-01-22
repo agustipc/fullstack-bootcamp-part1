@@ -1,37 +1,45 @@
 import "./styles.css"
+import { useState } from "react"
 import { Note } from "./Note.js"
 
-const notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    date: "2019-05-30T17:30:31.098Z",
-    important: true,
-    categories: ["category 1", "category 2", "category 3"],
-  },
-  {
-    id: 2,
-    content: "Browser can execute only JavaScript",
-    date: "2019-05-30T18:39:34.091Z",
-    important: false,
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    date: "2019-05-30T19:20:14.298Z",
-    important: true,
-  },
-]
+export default function App(props) {
+  const [notes, setNotes] = useState(props.notes)
+  const [newNote, setNewNote] = useState("")
 
-export default function App() {
-  if (typeof notes === "undefined" || notes.length === 0) {
-    return "No hay notas"
+  // if (typeof notes === "undefined" || notes.length === 0) {
+  //   return "No hay notas"
+  // }
+  const handleChange = (event) => {
+    setNewNote(event.target.value)
   }
+
+  const handleSave = (event) => {
+    event.preventDefault()
+
+    if (newNote !== "") {
+      const noteForNewState = {
+        id: notes.length + 1,
+        content: newNote,
+        date: new Date().toISOString(),
+        important: true,
+      }
+
+      setNotes([...notes, noteForNewState])
+      setNewNote("")
+    }
+  }
+
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
+      <h1>NOTES</h1>
       {notes.map((note) => (
         <Note key={note.id} {...note} />
       ))}
+
+      <form style={{ paddingTop: "40px" }} onSubmit={handleSave}>
+        <input type="text" onChange={handleChange} value={newNote} />
+        <button>Crear nota</button>
+      </form>
     </div>
   )
 }
