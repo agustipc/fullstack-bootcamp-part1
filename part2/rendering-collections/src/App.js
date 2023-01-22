@@ -29,12 +29,19 @@ export default function App() {
 
     if (newNote !== "") {
       const noteForNewState = {
-        id: notes.length + 1,
         title: newNote,
         body: newNote,
+        userId: 1,
       }
 
-      setNotes([...notes, noteForNewState])
+      axios
+        .post("https://jsonplaceholder.typicode.com/posts", noteForNewState)
+        .then((response) => {
+          const { data } = response
+          setNotes([...notes, data])
+        })
+
+      // setNotes([...notes, noteForNewState])
       setNewNote("")
     }
   }
