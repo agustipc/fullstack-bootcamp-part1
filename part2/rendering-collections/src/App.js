@@ -1,4 +1,5 @@
 import "./styles.css"
+import { Note } from "./Note.js"
 
 const notes = [
   {
@@ -27,16 +28,9 @@ export default function App() {
   }
   return (
     <div>
-      {notes.map((note) => {
-        return (
-          <div style={{ paddingBottom: "20px" }}>
-            <ul>
-              <small>{note.date}</small>
-            </ul>
-            <ul>{note.content}</ul>
-          </div>
-        )
-      })}
+      {notes.map((note) => (
+        <Note key={note.id} {...note} />
+      ))}
     </div>
   )
 }
