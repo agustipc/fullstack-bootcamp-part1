@@ -1,7 +1,7 @@
 import "./styles.css"
 import { useEffect, useState } from "react"
 import { Note } from "./Note.js"
-import axios from "axios"
+import { create as createNote, getAll as getAllNotes } from "./services/notes"
 
 export default function App() {
   const [notes, setNotes] = useState([])
@@ -11,12 +11,10 @@ export default function App() {
   useEffect(() => {
     setLoading(true)
     setTimeout(() => {
-      axios
-        .get("https://jsonplaceholder.typicode.com/posts")
-        .then((response) => {
-          setNotes(response.data)
-          setLoading(false)
-        })
+      getAllNotes().then((response) => {
+        setNotes(response)
+        setLoading(false)
+      })
     }, 2000)
   }, [])
 
@@ -33,12 +31,10 @@ export default function App() {
         body: newNote,
         userId: 1,
       }
-      setNotes([...notes, data])
-      axios
-        .post("https://jsonplaceholder.typicode.com/posts", noteForNewState)
-        .then((response) => {
-          const { data } = response
-        })
+
+      createNote(noteForNewState).then((response) => {
+        setNotes([...notes, response])
+      })
 
       // setNotes([...notes, noteForNewState])
       setNewNote("")
