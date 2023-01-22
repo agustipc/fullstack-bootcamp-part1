@@ -1,13 +1,10 @@
-export const Note = ({ date, content, categories = [] }) => {
+export const Note = ({ title, body }) => {
   return (
     <div style={{ padding: "20px" }}>
       <p>
-        <small>{date}</small>
+        <small>{title}</small>
       </p>
-      <p>{content}</p>
-      {categories.map((category) => (
-        <small key={category}>{category}</small>
-      ))}
+      <p>{body}</p>
     </div>
   )
 }

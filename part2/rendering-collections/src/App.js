@@ -1,15 +1,21 @@
 import "./styles.css"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Note } from "./Note.js"
 
-export default function App(props) {
-  const [notes, setNotes] = useState(props.notes)
+export default function App() {
+  const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState("")
-  const [showAll, setShowAll] = useState(true)
 
-  // if (typeof notes === "undefined" || notes.length === 0) {
-  //   return "No hay notas"
-  // }
+  useEffect(() => {
+    setTimeout(() => {
+      fetch("https://jsonplaceholder.typicode.com/posts")
+        .then((response) => response.json())
+        .then((json) => {
+          setNotes(json)
+        })
+    }, 2000)
+  }, [])
+
   const handleChange = (event) => {
     setNewNote(event.target.value)
   }
@@ -20,9 +26,8 @@ export default function App(props) {
     if (newNote !== "") {
       const noteForNewState = {
         id: notes.length + 1,
-        content: newNote,
-        date: new Date().toISOString(),
-        important: false,
+        title: newNote,
+        body: newNote,
       }
 
       setNotes([...notes, noteForNewState])
@@ -30,24 +35,20 @@ export default function App(props) {
     }
   }
 
-  const handleShowAll = () => {
-    setShowAll(() => !showAll)
+  if (typeof notes === "undefined" || notes.length === 0) {
+    return (
+      <div style={{ textAlign: "center", marginTop: "200px" }}>
+        No hay notas
+      </div>
+    )
   }
 
   return (
     <div style={{ padding: "20px" }}>
       <h1>NOTES</h1>
-      <button style={{ minWidth: "120px" }} onClick={handleShowAll}>
-        {showAll ? "Show Important" : "Show All"}
-      </button>
-      {notes
-        .filter((note) => {
-          if (showAll === true) return true
-          return note.important === true
-        })
-        .map((note) => (
-          <Note key={note.id} {...note} />
-        ))}
+      {notes.map((note) => (
+        <Note key={note.id} {...note} />
+      ))}
 
       <form style={{ paddingTop: "40px" }} onSubmit={handleSave}>
         <input type="text" onChange={handleChange} value={newNote} />
