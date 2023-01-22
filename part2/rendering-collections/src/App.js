@@ -33,12 +33,11 @@ export default function App() {
         body: newNote,
         userId: 1,
       }
-
+      setNotes([...notes, data])
       axios
         .post("https://jsonplaceholder.typicode.com/posts", noteForNewState)
         .then((response) => {
           const { data } = response
-          setNotes([...notes, data])
         })
 
       // setNotes([...notes, noteForNewState])
