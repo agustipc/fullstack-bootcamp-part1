@@ -1,17 +1,21 @@
 import "./styles.css"
 import { useEffect, useState } from "react"
 import { Note } from "./Note.js"
+import axios from "axios"
 
 export default function App() {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState("")
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    setLoading(true)
     setTimeout(() => {
-      fetch("https://jsonplaceholder.typicode.com/posts")
-        .then((response) => response.json())
-        .then((json) => {
-          setNotes(json)
+      axios
+        .get("https://jsonplaceholder.typicode.com/posts")
+        .then((response) => {
+          setNotes(response.data)
+          setLoading(false)
         })
     }, 2000)
   }, [])
@@ -35,20 +39,18 @@ export default function App() {
     }
   }
 
-  if (typeof notes === "undefined" || notes.length === 0) {
-    return (
-      <div style={{ textAlign: "center", marginTop: "200px" }}>
-        No hay notas
-      </div>
-    )
-  }
-
   return (
     <div style={{ padding: "20px" }}>
       <h1>NOTES</h1>
-      {notes.map((note) => (
-        <Note key={note.id} {...note} />
-      ))}
+      {loading ? (
+        <small>Loading...</small>
+      ) : typeof notes === "undefined" || notes.length === 0 ? (
+        <div style={{ textAlign: "center", marginTop: "200px" }}>
+          No hay notas
+        </div>
+      ) : (
+        notes.map((note) => <Note key={note.id} {...note} />)
+      )}
 
       <form style={{ paddingTop: "40px" }} onSubmit={handleSave}>
         <input type="text" onChange={handleChange} value={newNote} />
