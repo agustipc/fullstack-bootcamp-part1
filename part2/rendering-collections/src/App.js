@@ -7,6 +7,7 @@ export default function App() {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState("")
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
 
   useEffect(() => {
     setLoading(true)
@@ -32,9 +33,16 @@ export default function App() {
         userId: 1,
       }
 
-      createNote(noteForNewState).then((response) => {
-        setNotes([...notes, response])
-      })
+      setError("")
+
+      createNote(noteForNewState)
+        .then((response) => {
+          setNotes([...notes, response])
+        })
+        .catch((e) => {
+          console.error(e)
+          setError("La api ha petado")
+        })
 
       // setNotes([...notes, noteForNewState])
       setNewNote("")
@@ -46,6 +54,8 @@ export default function App() {
       <h1>NOTES</h1>
       {loading ? (
         <small>Loading...</small>
+      ) : error ? (
+        <span style={{ color: "red" }}>{error}</span>
       ) : typeof notes === "undefined" || notes.length === 0 ? (
         <div style={{ textAlign: "center", marginTop: "200px" }}>
           No hay notas

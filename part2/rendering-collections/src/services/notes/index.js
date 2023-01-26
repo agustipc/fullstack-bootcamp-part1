@@ -1,6 +1,8 @@
 import axios from "axios"
 
 export const create = async ({ title, body, userId }) => {
+  //To create error
+  return Promise.reject("something happend")
   const response = await axios.post(
     "https://jsonplaceholder.typicode.com/posts",
     { title, body, userId }
