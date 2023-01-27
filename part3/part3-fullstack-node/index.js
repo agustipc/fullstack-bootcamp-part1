@@ -55,6 +55,10 @@ app.delete("/api/notes/:id", (request, response) => {
 app.post("/api/notes", (request, response) => {
   const note = request.body
 
+  if (!note || !note.content) {
+    return response.status(400).json({ error: "note.content is missing" })
+  }
+
   const ids = notes.map((note) => note.id)
   const maxId = Math.max(...ids)
 
@@ -67,7 +71,7 @@ app.post("/api/notes", (request, response) => {
 
   notes = [...notes, newNote]
 
-  response.json(newNote)
+  response.status(201).json(newNote)
 })
 
 const PORT = 3001
