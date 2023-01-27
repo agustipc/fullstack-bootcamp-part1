@@ -8,20 +8,20 @@ let notes = [
     id: 1,
     content: 'Me tengo que suscribir en Youtube',
     date: '2019-05-30T17:30:31.098Z',
-    important: true,
+    important: true
   },
   {
     id: 2,
     content: 'Tengo que estudiar las clases de fullstack',
     date: '2019-05-30T18:39:34.091Z',
-    important: false,
+    important: false
   },
   {
     id: 3,
     content: 'Repasar los retos de JS',
     date: '2019-05-30T19:20:14.298Z',
-    important: true,
-  },
+    important: true
+  }
 ]
 
 app.get('/', (request, response) => {
@@ -61,7 +61,7 @@ app.post('/api/notes', (request, response) => {
     id: maxId + 1,
     content: note.content,
     important: typeof note.important !== 'undefined' ? note.important : false,
-    date: new Date().toISOString(),
+    date: new Date().toISOString()
   }
 
   notes = [...notes, newNote]
