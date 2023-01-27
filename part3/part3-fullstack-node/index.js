@@ -1,7 +1,10 @@
 const express = require('express')
+const logger = require('./loggerMiddleware')
 const app = express()
 
 app.use(express.json())
+
+app.use(logger)
 
 let notes = [
   {
@@ -67,6 +70,10 @@ app.post('/api/notes', (request, response) => {
   notes = [...notes, newNote]
 
   response.status(201).json(newNote)
+})
+
+app.use((request, response) => {
+  response.status(404).json({ error: 'Not Found' })
 })
 
 const PORT = 3001
