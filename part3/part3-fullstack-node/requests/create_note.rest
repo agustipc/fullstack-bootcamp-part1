@@ -2,5 +2,16 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "content": "New Content"
+    "content": "New Content",
+    "important": true
+}
+
+###
+
+
+POST http://localhost:3001/api/notes 
+Content-Type: application/json
+
+{
+    "important": true
 }
