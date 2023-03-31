@@ -22,19 +22,22 @@ export default function NoteForm({ handleLogout, addNote }) {
   }
 
   return (
-    <Togglable buttonLabel={'New Note'} ref={togglableRef}>
+    <>
       <h3>Create a new note</h3>
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Write your note content"
-          value={newNote}
-          onChange={handleChange}
-        />
-        <button type="submit">save</button>
-      </form>
-      <div>
-        <button onClick={handleLogout}>Logout</button>
-      </div>
-    </Togglable>
+      <Togglable buttonLabel={'New Note'} ref={togglableRef}>
+        <form data-cy="note-form" onSubmit={handleSubmit}>
+          <input
+            name="Add note"
+            placeholder="Write your note content"
+            value={newNote}
+            onChange={handleChange}
+          />
+          <button type="submit">save</button>
+        </form>
+        <div>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      </Togglable>
+    </>
   )
 }

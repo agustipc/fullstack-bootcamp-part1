@@ -19,10 +19,12 @@
     "cypress:open": "cypress open"
   },
   "eslintConfig": {
+    "env": {"cypress/globals": true},
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "plugins": ["cypress"]
   },
   "browserslist": {
     "production": [
@@ -39,6 +41,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
-    "cypress": "^12.9.0"
+    "cypress": "^12.9.0",
+    "eslint-plugin-cypress": "^2.13.2"
   }
 }
