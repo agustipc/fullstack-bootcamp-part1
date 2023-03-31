@@ -35,13 +35,7 @@ describe('Note App', () => {
 
   describe('after login', () => {
     beforeEach(() => {
-      cy.request('POST', 'http://localhost:3001/api/login', {
-        username: user.username,
-        password: user.password
-      }).then((response) => {
-        localStorage.setItem('loggedNoteAppUser', JSON.stringify(response.body))
-        cy.visit('http://localhost:3000')
-      })
+      cy.login(user)
     })
     it('can create a new note after login', () => {
       const noteContent = 'New note for testing'
