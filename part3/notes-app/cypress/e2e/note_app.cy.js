@@ -1,6 +1,14 @@
 describe('Note App', () => {
+  const user = {
+    name: 'user testing',
+    username: 'username testing',
+    password: 'testpass'
+  }
   beforeEach(() => {
     cy.visit('http://localhost:3000')
+    cy.request('POST', 'http://localhost:3001/api/testing/reset')
+
+    cy.request('POST', 'http://localhost:3001/api/users', user)
   })
 
   it('frontpage can be opened', () => {
@@ -9,8 +17,8 @@ describe('Note App', () => {
 
   it('user can login', () => {
     cy.contains('Show Login').click()
-    cy.get('[name="Username"]').type('username1')
-    cy.get('[name="Password"]').type('pswd')
+    cy.get('[name="Username"]').type(user.username)
+    cy.get('[name="Password"]').type(user.password)
     cy.get('#form-login-button').click()
     cy.contains('Create a new note')
     cy.get('#togglable-button').click()
@@ -20,8 +28,8 @@ describe('Note App', () => {
   describe('after login', () => {
     beforeEach(() => {
       cy.contains('Show Login').click()
-      cy.get('[name="Username"]').type('username1')
-      cy.get('[name="Password"]').type('pswd')
+      cy.get('[name="Username"]').type(user.username)
+      cy.get('[name="Password"]').type(user.password)
       cy.get('#form-login-button').click()
       cy.contains('Create a new note')
       cy.get('#togglable-button').click()
