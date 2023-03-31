@@ -34,17 +34,33 @@ describe('Note App', () => {
   })
 
   describe('after login', () => {
+    const noteContent = 'New note for testing'
+
     beforeEach(() => {
       cy.login(user)
     })
-    it('can create a new note after login', () => {
-      const noteContent = 'New note for testing'
 
+    it('can create a new note after login', () => {
       cy.contains('Create a new note')
       cy.get('#togglable-button').click()
       cy.get('[data-cy="note-form"] input[name="Add note"] ').type(noteContent)
       cy.get('[type="submit"]').click()
       cy.get('[data-cy="note-list-item"').last().contains(noteContent)
+    })
+
+    describe('make important', () => {
+      beforeEach(() => {
+        cy.createNote({ content: 'first note', important: false })
+        cy.createNote({ content: 'second note', important: false })
+        cy.createNote({ content: noteContent, important: false })
+      })
+
+      it('can change the important when clicking it', () => {
+        cy.contains(noteContent).as('theNote')
+
+        cy.get('@theNote').contains('make important').click()
+        cy.get('@theNote').contains('make not important')
+      })
     })
   })
 })
